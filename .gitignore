@@ -1,0 +1,6 @@
+/bin/
+
+intermediates/
+*.sdf
+*.user
+*.suo
