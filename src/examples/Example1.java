@@ -1,6 +1,8 @@
 package examples;
 
+import com.pvporbit.freetype.Face;
 import com.pvporbit.freetype.FreeType;
+import com.pvporbit.freetype.Library;
 
 public class Example1 {
 
@@ -13,23 +15,28 @@ public class Example1 {
 		System.loadLibrary(libName);
 		System.out.println("Library loaded.");
 
-		/* --- Get library pointer --- */
-		long library = FreeType.FT_Init_FreeType();
-		if (library <= 0)
+		/* --- Init FreeType --- */
+		Library library = FreeType.newLibrary();
+		if (library == null)
 			throw new Exception("Error initializing FreeType.");
-		System.out.println("FreeType initialized, pointer=" + library);
+		System.out.println("FreeType initialized.");
 
 		/* --- Create face from .TTF --- */
-		long face = FreeType.newFace(library, fontPath, 0); // We can use FT_New_Memory_Face but it requires a ByteBuffer so here is a help function to load it from a file easily.
-		if (face <= 0)
+		Face face = library.newFace(fontPath, 0);
+		if (face == null)
 			throw new Exception("Error creating face from file '" + fontPath + "'.");
 		System.out.println("Face from file '" + fontPath + "' created.");
 
 		/* --- Work with the face --- */
 
 		/* --- Delete face --- */
-		if (!FreeType.FT_Done_Face(face))
+		if (!face.delete())
 			throw new Exception("Error deleting face from file '" + fontPath + "'.");
 		System.out.println("Face from file '" + fontPath + "' deleted.");
+
+		/* --- Destroy FreeType --- */
+		if (!library.delete())
+			throw new Exception("Error deleting FreeType.");
+		System.out.println("FreeType deleted.");
 	}
 }

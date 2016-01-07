@@ -12,42 +12,24 @@ public class FreeType {
 
 	public static native long FT_Init_FreeType();
 
+	public static native boolean FT_Done_FreeType(long library); // TODO
+
 	public static native long FT_New_Memory_Face(long library, ByteBuffer data, int length, int faceIndex);
+
+	public static native boolean FT_Done_Face(long face);
 
 	public static native boolean FT_Set_Pixel_Sizes(long face, float width, float height);
 
 	public static native boolean FT_Load_Char(long face, char c, int flags);
 
-	public static native boolean FT_Done_Face(long face);
+	/* Java Object functions */
 
-	/* Helpers */
-	
-	public static long newFace(long library, String file, int faceIndex) {
-		try {
-			byte[] bytes = Files.readAllBytes(new File(file).toPath());
-			if (bytes.length == 0)
-				return 0;
-			// Create new buffer
-			ByteBuffer buffer = newBuffer(bytes.length);
-			buffer.order(ByteOrder.nativeOrder());
-			buffer.limit(buffer.position() + bytes.length);
-			// Copy bytes to the buffer
-			fillBuffer(bytes, buffer, bytes.length);
-			long face = FT_New_Memory_Face(library, buffer, buffer.remaining(), faceIndex);
-			if (face <= 0)
-				deleteBuffer(buffer);
-			return face;
-		} catch (IOException e) {}
-		return 0;
+	public static Library newLibrary() {
+		long library = FT_Init_FreeType();
+		if (library != 0)
+			return new Library(library);
+		return null;
 	}
-
-	/* Buffer helpers */
-
-	public static native ByteBuffer newBuffer(int size);
-
-	public static native void fillBuffer(byte[] bytes, ByteBuffer buffer, int length);
-
-	public static native void deleteBuffer(ByteBuffer buffer);
 
 	/* FreeType constants */
 
