@@ -154,5 +154,8 @@
     <ClInclude Include="..\src\com_pvporbit_freetype_FreeType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\com_pvporbit_freetype_Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

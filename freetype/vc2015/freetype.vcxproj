@@ -1692,6 +1692,7 @@
     <ClInclude Include="..\include\config\ftoption.h" />
     <ClInclude Include="..\include\config\ftstdlib.h" />
     <ClInclude Include="..\src\com_pvporbit_freetype_FreeType.h" />
+    <ClInclude Include="..\src\com_pvporbit_freetype_Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

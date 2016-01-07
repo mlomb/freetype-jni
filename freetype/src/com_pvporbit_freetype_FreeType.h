@@ -51,11 +51,27 @@ JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Init_1FreeType
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Done_FreeType
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Done_1FreeType
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_New_Memory_Face
  * Signature: (JLjava/nio/ByteBuffer;II)J
  */
 JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1New_1Memory_1Face
   (JNIEnv *, jclass, jlong, jobject, jint, jint);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Done_Face
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Done_1Face
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
@@ -72,38 +88,6 @@ JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Set_1Pixel_1S
  */
 JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Load_1Char
   (JNIEnv *, jclass, jlong, jchar, jint);
-
-/*
- * Class:     com_pvporbit_freetype_FreeType
- * Method:    FT_Done_Face
- * Signature: (J)Z
- */
-JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Done_1Face
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     com_pvporbit_freetype_FreeType
- * Method:    newBuffer
- * Signature: (I)Ljava/nio/ByteBuffer;
- */
-JNIEXPORT jobject JNICALL Java_com_pvporbit_freetype_FreeType_newBuffer
-  (JNIEnv *, jclass, jint);
-
-/*
- * Class:     com_pvporbit_freetype_FreeType
- * Method:    fillBuffer
- * Signature: ([BLjava/nio/ByteBuffer;I)V
- */
-JNIEXPORT void JNICALL Java_com_pvporbit_freetype_FreeType_fillBuffer
-  (JNIEnv *, jclass, jbyteArray, jobject, jint);
-
-/*
- * Class:     com_pvporbit_freetype_FreeType
- * Method:    deleteBuffer
- * Signature: (Ljava/nio/ByteBuffer;)V
- */
-JNIEXPORT void JNICALL Java_com_pvporbit_freetype_FreeType_deleteBuffer
-  (JNIEnv *, jclass, jobject);
 
 #ifdef __cplusplus
 }

@@ -1,14 +1,41 @@
 #include "com_pvporbit_freetype_FreeType.h"
+#include "com_pvporbit_freetype_Utils.h"
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
 /* Please compile with Release Multithreaded */
 
+/* --- Helper functions --- */
+
+JNIEXPORT jobject JNICALL Java_com_pvporbit_freetype_Utils_newBuffer(JNIEnv *env, jclass obj, jint size) {
+	return env->NewDirectByteBuffer((char*)malloc(size), size);
+}
+
+JNIEXPORT void JNICALL Java_com_pvporbit_freetype_Utils_fillBuffer(JNIEnv *env, jclass obj, jbyteArray bytes, jobject buffer, jint length) {
+	unsigned char* dst = (unsigned char*)(buffer ? env->GetDirectBufferAddress(buffer) : 0);
+	char* src = (char*)env->GetPrimitiveArrayCritical(bytes, 0);
+
+	memcpy(dst, src, length);
+
+	env->ReleasePrimitiveArrayCritical(bytes, src, 0);
+}
+
+JNIEXPORT void JNICALL Java_com_pvporbit_freetype_Utils_deleteBuffer(JNIEnv *env, jclass obj, jobject buffer) {
+	char* b = (char*)(buffer ? env->GetDirectBufferAddress(buffer) : 0);
+	free(b);
+}
+
+
+/* --- FreeType functions --- */
 JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Init_1FreeType(JNIEnv *env, jclass obj) {
 	FT_Library lib = NULL;
 	if (FT_Init_FreeType(&lib))
 		return 0;
 	return (jlong)lib;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Done_1FreeType(JNIEnv *env, jclass obj, jlong lib) {
+	return !FT_Done_FreeType((FT_Library)lib);
 }
 
 JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1New_1Memory_1Face(JNIEnv *env, jclass obj, jlong lib, jobject buffer, jint length, jint faceIndex) {
@@ -29,21 +56,4 @@ JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Load_1Char(JN
 
 JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Done_1Face(JNIEnv *env, jclass obj, jlong face) {
 	return !FT_Done_Face((FT_Face)face);
-}
-/* Helpers */
-
-JNIEXPORT jobject JNICALL Java_com_pvporbit_freetype_FreeType_newBuffer(JNIEnv *env, jclass obj, jint size) {
-	return env->NewDirectByteBuffer((char*)malloc(size), size);
-}
-JNIEXPORT void JNICALL Java_com_pvporbit_freetype_FreeType_fillBuffer(JNIEnv *env, jclass obj, jbyteArray bytes, jobject buffer, jint length) {
-	unsigned char* dst = (unsigned char*)(buffer ? env->GetDirectBufferAddress(buffer) : 0);
-	char* src = (char*)env->GetPrimitiveArrayCritical(bytes, 0);
-
-	memcpy(dst, src, length);
-
-	env->ReleasePrimitiveArrayCritical(bytes, src, 0);
-}
-JNIEXPORT void JNICALL Java_com_pvporbit_freetype_FreeType_deleteBuffer(JNIEnv *env, jclass obj, jobject buffer) {
-	char* b = (char*)(buffer ? env->GetDirectBufferAddress(buffer) : 0);
-	free(b);
 }
