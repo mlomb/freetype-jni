@@ -29,6 +29,23 @@ public class Example1 {
 
 		/* --- Work with the face --- */
 
+		System.out.println(face.getAscender());
+		System.out.println(face.getCharIndex('b'));
+		System.out.println(face.getDescender());
+		System.out.println(face.getFaceFlags());
+		System.out.println(face.getHeight());
+		System.out.println(face.getMaxAdvanceHeight());
+		System.out.println(face.getMaxAdvanceWidth());
+		System.out.println(face.getNumGlyphs());
+		System.out.println(face.getStyleFlags());
+		System.out.println(face.getUnderlinePosition());
+		System.out.println(face.getUnderlineThickness());
+		System.out.println(face.getFaceIndex());
+		System.out.println(face.getFamilyName());
+		System.out.println(face.getNumFaces());
+		System.out.println(face.getStyleName());
+		System.out.println(face.getUnitsPerEM());
+
 		/* --- Delete face --- */
 		if (!face.delete())
 			throw new Exception("Error deleting face from file '" + fontPath + "'.");
