@@ -1,5 +1,5 @@
 # FreeType-jni
-Java interface to the FreeType library with JNI.
+Java interface to the [FreeType](http://www.freetype.org/) library with [JNI](https://en.wikipedia.org/wiki/Java_Native_Interface).
 # Usage
 ## Initialization
 To create a new library use:
