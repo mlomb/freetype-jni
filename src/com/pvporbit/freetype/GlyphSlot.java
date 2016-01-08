@@ -6,6 +6,13 @@ public class GlyphSlot extends Pointer {
 		super(pointer);
 	}
 
+	public Bitmap getBitmap() {
+		long bitmap = FreeType.FT_GlyphSlot_Get_bitmap(pointer);
+		if (bitmap <= 0)
+			return null;
+		return new Bitmap(bitmap);
+	}
+
 	public long getLinearHoriAdvance() {
 		return FreeType.FT_GlyphSlot_Get_linearHoriAdvance(pointer);
 	}

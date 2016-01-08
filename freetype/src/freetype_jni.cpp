@@ -182,9 +182,34 @@ JNIEXPORT jlongArray JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1
 JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1format(JNIEnv *env, jclass ob, jlong glyph) {
 	return ((FT_GlyphSlot)glyph)->format;
 }
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1bitmap(JNIEnv *env, jclass ob, jlong glyph) {
+	return (jlong)(&((FT_GlyphSlot)glyph)->bitmap);
+}
 JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1bitmap_1left(JNIEnv *env, jclass ob, jlong glyph) {
 	return ((FT_GlyphSlot)glyph)->bitmap_left;
 }
 JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1bitmap_1top(JNIEnv *env, jclass ob, jlong glyph) {
 	return ((FT_GlyphSlot)glyph)->bitmap_top;
+}
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1width(JNIEnv *env, jclass obj, jlong bitmap) {
+	return ((FT_Bitmap*)bitmap)->width;
+}
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1rows(JNIEnv *env, jclass obj, jlong bitmap) {
+	return ((FT_Bitmap*)bitmap)->rows;
+}
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1pitch(JNIEnv *env, jclass obj, jlong bitmap) {
+	return ((FT_Bitmap*)bitmap)->pitch;
+}
+JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1num_1grays(JNIEnv *env, jclass obj, jlong bitmap) {
+	return ((FT_Bitmap*)bitmap)->num_grays;
+}
+JNIEXPORT jchar JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1palette_1mode(JNIEnv *env, jclass obj, jlong bitmap) {
+	return ((FT_Bitmap*)bitmap)->palette_mode;
+}
+JNIEXPORT jchar JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1pixel_1mode(JNIEnv *env, jclass obj, jlong bitmap) {
+	return ((FT_Bitmap*)bitmap)->pixel_mode;
+}
+JNIEXPORT jobject JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1buffer(JNIEnv *env, jclass obj, jlong bitmap) {
+	FT_Bitmap* bmp = (FT_Bitmap*)bitmap;
+	return env->NewDirectByteBuffer((void*)bmp->buffer, bmp->rows * abs(bmp->pitch) * bmp->width);
 }

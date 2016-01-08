@@ -339,6 +339,14 @@ JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1f
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_GlyphSlot_Get_bitmap
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1bitmap
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_GlyphSlot_Get_bitmap_left
  * Signature: (J)I
  */
@@ -351,6 +359,62 @@ JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1b
  * Signature: (J)I
  */
 JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1bitmap_1top
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Bitmap_Get_width
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1width
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Bitmap_Get_rows
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1rows
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Bitmap_Get_pitch
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1pitch
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Bitmap_Get_num_grays
+ * Signature: (J)S
+ */
+JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1num_1grays
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Bitmap_Get_palette_mode
+ * Signature: (J)C
+ */
+JNIEXPORT jchar JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1palette_1mode
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Bitmap_Get_pixel_mode
+ * Signature: (J)C
+ */
+JNIEXPORT jchar JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1pixel_1mode
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Bitmap_Get_buffer
+ * Signature: (J)Ljava/nio/ByteBuffer;
+ */
+JNIEXPORT jobject JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1buffer
   (JNIEnv *, jclass, jlong);
 
 #ifdef __cplusplus

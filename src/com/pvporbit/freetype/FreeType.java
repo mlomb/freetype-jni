@@ -36,8 +36,8 @@ public class FreeType {
 	public static native boolean FT_Load_Char(long face, char c, int flags);
 	public static native boolean FT_Done_Face(long face);
 	public static native long[] FT_Get_Kerning(long face, char left, char right, int mode); // [x, y]
-	public static native long FT_Get_KerningX(long face, char left, char right, int mode); // -
-	public static native long FT_Get_KerningY(long face, char left, char right, int mode); // -
+	public static native long FT_Get_KerningX(long face, char left, char right, int mode);
+	public static native long FT_Get_KerningY(long face, char left, char right, int mode);
 	public static native long FT_Get_glyph(long face);
 	public static native long FT_Get_size(long face); // TODO is a pointer to FT_Size
 	// Implemented ↑ | TODO ↓
@@ -49,8 +49,19 @@ public class FreeType {
 	public static native long FT_GlyphSlot_Get_advanceX(long glyphSlot);
 	public static native long FT_GlyphSlot_Get_advanceY(long glyphSlot);
 	public static native int FT_GlyphSlot_Get_format(long glyphSlot);
+	public static native long FT_GlyphSlot_Get_bitmap(long glyphSlot);
 	public static native int FT_GlyphSlot_Get_bitmap_left(long glyphSlot);
 	public static native int FT_GlyphSlot_Get_bitmap_top(long glyphSlot);
+	
+	// Bitmap
+	public static native int FT_Bitmap_Get_width(long bitmap);
+	public static native int FT_Bitmap_Get_rows(long bitmap);
+	public static native int FT_Bitmap_Get_pitch(long bitmap);
+	public static native short FT_Bitmap_Get_num_grays(long bitmap);
+	public static native char FT_Bitmap_Get_palette_mode(long bitmap);
+	public static native char FT_Bitmap_Get_pixel_mode(long bitmap);
+	public static native ByteBuffer FT_Bitmap_Get_buffer(long bitmap);
+	
 	// Implemented ↑ | TODO ↓
 	
 	/* Java Object functions */
