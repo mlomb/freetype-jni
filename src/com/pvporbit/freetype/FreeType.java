@@ -31,14 +31,28 @@ public class FreeType {
 	public static native boolean FT_HAS_KERNING(long face);
 	public static native boolean FT_Select_Size(long face, int strikeIndex);
 	public static native boolean FT_Set_Char_Size(long face, int char_width, int char_height, int horz_resolution, int vert_resolution);
-	public static native boolean FT_Load_Glyph(long face, int glyphIndex, int loadFlags);	public static native boolean FT_Set_Pixel_Sizes(long face, float width, float height);
+	public static native boolean FT_Load_Glyph(long face, int glyphIndex, int loadFlags);
+	public static native boolean FT_Set_Pixel_Sizes(long face, float width, float height);
 	public static native boolean FT_Load_Char(long face, char c, int flags);
 	public static native boolean FT_Done_Face(long face);
-	// Implemented ↑ | TODO ↓
-	public static native long FT_Get_Kerning(long face, char left, char right, int mode); // TODO .x .y
+	public static native long[] FT_Get_Kerning(long face, char left, char right, int mode); // [x, y]
+	public static native long FT_Get_KerningX(long face, char left, char right, int mode); // -
+	public static native long FT_Get_KerningY(long face, char left, char right, int mode); // -
 	public static native long FT_Get_glyph(long face);
-	public static native long FT_Get_size(long face);
+	public static native long FT_Get_size(long face); // TODO is a pointer to FT_Size
+	// Implemented ↑ | TODO ↓
 
+	// Glyph
+	public static native long FT_GlyphSlot_Get_linearHoriAdvance(long glyphSlot);
+	public static native long FT_GlyphSlot_Get_linearVertAdvance(long glyphSlot);
+	public static native long[] FT_GlyphSlot_Get_advance(long glyphSlot);
+	public static native long FT_GlyphSlot_Get_advanceX(long glyphSlot);
+	public static native long FT_GlyphSlot_Get_advanceY(long glyphSlot);
+	public static native int FT_GlyphSlot_Get_format(long glyphSlot);
+	public static native int FT_GlyphSlot_Get_bitmap_left(long glyphSlot);
+	public static native int FT_GlyphSlot_Get_bitmap_top(long glyphSlot);
+	// Implemented ↑ | TODO ↓
+	
 	/* Java Object functions */
 
 	public static Library newLibrary() {

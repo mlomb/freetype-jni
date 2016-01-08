@@ -20,8 +20,6 @@ public class Face extends Pointer {
 		return FreeType.FT_Done_Face(pointer);
 	}
 
-	/* Getters */
-
 	public short getAscender() {
 		return FreeType.FT_Get_ascender(pointer);
 	}
@@ -104,5 +102,27 @@ public class Face extends Pointer {
 
 	public boolean loadChar(char c, int flags) {
 		return FreeType.FT_Load_Char(pointer, c, flags);
+	}
+
+	public Kerning getKerning(char left, char right) {
+		return getKerning(left, right, 0);
+	}
+
+	public Kerning getKerning(char left, char right, int mode) {
+		long[] vector = FreeType.FT_Get_Kerning(pointer, left, right, mode);
+		if (vector.length == 0)
+			return null;
+		return new Kerning(vector[0], vector[1]);
+	}
+
+	public boolean setPixelSizes(float width, float height) {
+		return FreeType.FT_Set_Pixel_Sizes(pointer, width, height);
+	}
+
+	public GlyphSlot getGlyphSlot() {
+		long glyph = FreeType.FT_Get_glyph(pointer);
+		if (glyph <= 0)
+			return null;
+		return new GlyphSlot(glyph);
 	}
 }

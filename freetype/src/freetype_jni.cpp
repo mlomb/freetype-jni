@@ -1,9 +1,12 @@
 #include "com_pvporbit_freetype_FreeType.h"
 #include "com_pvporbit_freetype_Utils.h"
 #include <ft2build.h>
+#include <sstream>
+#include <string>
 #include FT_FREETYPE_H
 
 /* Please compile with Release Multithreaded */
+/* And do not compile with 32 bits after year 2038 ;) */
 
 /* --- Helper functions --- */
 
@@ -102,6 +105,9 @@ JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1underline_
 JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1units_1per_1EM(JNIEnv *env, jclass obj, jlong face) {
 	return ((FT_Face)face)->units_per_EM;
 }
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1size(JNIEnv *env, jclass obj, jlong face) {
+	return (jlong)(((FT_Face)face)->size);
+}
 JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1Char_1Index(JNIEnv *env, jclass obj, jlong face, jint code) {
 	return FT_Get_Char_Index((FT_Face)face, code);
 }
@@ -114,6 +120,71 @@ JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Select_1Size(
 JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Set_1Char_1Size(JNIEnv *env, jclass obj, jlong face, jint char_width, jint char_height, jint horz_resolution, jint vert_resolution) {
 	return FT_Set_Char_Size((FT_Face)face, char_width, char_height, horz_resolution, vert_resolution);
 }
-JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Load_1Glyph(JNIEnv *env, jclass obj, jlong face, jint glyphIndex, jint loadFlags){
+JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Load_1Glyph(JNIEnv *env, jclass obj, jlong face, jint glyphIndex, jint loadFlags) {
 	return FT_Load_Glyph((FT_Face)face, glyphIndex, loadFlags);
+}
+
+JNIEXPORT jlongArray JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1Kerning(JNIEnv *env, jclass org, jlong face, jchar left, jchar right, jint mode) {
+	FT_Vector vector;
+	if (FT_Get_Kerning((FT_Face)face, left, right, mode, &vector))
+		return 0;
+
+	jlongArray result = env->NewLongArray(2);
+	if (result == NULL) // Out of memory
+		return NULL;
+	jlong fill[2];
+	fill[0] = vector.x;
+	fill[1] = vector.y;
+	env->SetLongArrayRegion(result, 0, 2, fill);
+
+	return result;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1KerningX(JNIEnv *env, jclass org, jlong face, jchar left, jchar right, jint mode) {
+	FT_Vector vector;
+	if (FT_Get_Kerning((FT_Face)face, left, right, mode, &vector))
+		return 0;
+	return vector.x;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1KerningY(JNIEnv *env, jclass org, jlong face, jchar left, jchar right, jint mode) {
+	FT_Vector vector;
+	if (FT_Get_Kerning((FT_Face)face, left, right, mode, &vector))
+		return 0;
+	return vector.y;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1glyph(JNIEnv *env, jclass obj, jlong face) {
+	return (jlong)((FT_Face)face)->glyph;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1linearHoriAdvance(JNIEnv *env, jclass ob, jlong glyph) {
+	return ((FT_GlyphSlot)glyph)->linearHoriAdvance;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1linearVertAdvance(JNIEnv *env, jclass ob, jlong glyph) {
+	return ((FT_GlyphSlot)glyph)->linearVertAdvance;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1advanceX(JNIEnv *env, jclass ob, jlong glyph) {
+	return ((FT_GlyphSlot)glyph)->advance.x;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1advanceY(JNIEnv *env, jclass ob, jlong glyph) {
+	return ((FT_GlyphSlot)glyph)->advance.y;
+}
+JNIEXPORT jlongArray JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1advance(JNIEnv *env, jclass ob, jlong glyph) {
+	FT_Vector vector = ((FT_GlyphSlot)glyph)->advance;
+
+	jlongArray result = env->NewLongArray(2);
+	if (result == NULL) // Out of memory
+		return NULL;
+	jlong fill[2];
+	fill[0] = vector.x;
+	fill[1] = vector.y;
+	env->SetLongArrayRegion(result, 0, 2, fill);
+
+	return result;
+}
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1format(JNIEnv *env, jclass ob, jlong glyph) {
+	return ((FT_GlyphSlot)glyph)->format;
+}
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1bitmap_1left(JNIEnv *env, jclass ob, jlong glyph) {
+	return ((FT_GlyphSlot)glyph)->bitmap_left;
+}
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1bitmap_1top(JNIEnv *env, jclass ob, jlong glyph) {
+	return ((FT_GlyphSlot)glyph)->bitmap_top;
 }
