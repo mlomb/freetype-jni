@@ -1,8 +1,8 @@
 #include "com_pvporbit_freetype_FreeType.h"
 #include "com_pvporbit_freetype_Utils.h"
-#include <ft2build.h>
 #include <sstream>
 #include <string>
+#include <ft2build.h>
 #include FT_FREETYPE_H
 
 /* Please compile with Release Multithreaded */
@@ -30,6 +30,21 @@ JNIEXPORT void JNICALL Java_com_pvporbit_freetype_Utils_deleteBuffer(JNIEnv *env
 
 
 /* --- FreeType functions --- */
+JNIEXPORT jintArray JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Library_1Version(JNIEnv *env, jclass obj, jlong library) {
+	int major, minor, patch;
+	FT_Library_Version((FT_Library)library, &major, &minor, &patch);
+
+	jintArray result = env->NewIntArray(3);
+	if (result == NULL) // Out of memory
+		return NULL;
+	jint fill[2];
+	fill[0] = major;
+	fill[1] = minor;
+	fill[2] = patch;
+	env->SetIntArrayRegion(result, 0, 3, fill);
+
+	return result;
+}
 JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Init_1FreeType(JNIEnv *env, jclass obj) {
 	FT_Library lib = NULL;
 	if (FT_Init_FreeType(&lib))
@@ -41,7 +56,7 @@ JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Done_1FreeTyp
 	return FT_Done_FreeType((FT_Library)lib);
 }
 
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1New_1Memory_1Face(JNIEnv *env, jclass obj, jlong lib, jobject buffer, jint length, jint faceIndex) {
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1New_1Memory_1Face(JNIEnv *env, jclass obj, jlong lib, jobject buffer, jint length, jlong faceIndex) {
 	char* data = (char*)(buffer ? env->GetDirectBufferAddress(buffer) : 0);
 	FT_Face face = NULL;
 	if (FT_New_Memory_Face((FT_Library)lib, (const FT_Byte*)data, length, faceIndex, &face))
@@ -60,53 +75,80 @@ JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Load_1Char(JN
 JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Done_1Face(JNIEnv *env, jclass obj, jlong face) {
 	return FT_Done_Face((FT_Face)face);
 }
-JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1ascender(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1ascender(JNIEnv *env, jclass obj, jlong face) {
 	return ((FT_Face)face)->ascender;
 }
-JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1descender(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1descender(JNIEnv *env, jclass obj, jlong face) {
 	return ((FT_Face)face)->descender;
 }
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1face_1flags(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1face_1flags(JNIEnv *env, jclass obj, jlong face) {
 	return ((FT_Face)face)->face_flags;
 }
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1face_1index(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1face_1index(JNIEnv *env, jclass obj, jlong face) {
 	return ((FT_Face)face)->face_index;
 }
-JNIEXPORT jstring JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1family_1name(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jstring JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1family_1name(JNIEnv *env, jclass obj, jlong face) {
 	return env->NewStringUTF(((FT_Face)face)->family_name);
 }
-JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1heigth(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1heigth(JNIEnv *env, jclass obj, jlong face) {
 	return ((FT_Face)face)->height;
 }
-JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1max_1advance_1height(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1max_1advance_1height(JNIEnv *env, jclass obj, jlong face) {
 	return ((FT_Face)face)->max_advance_height;
 }
-JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1max_1advance_1width(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1max_1advance_1width(JNIEnv *env, jclass obj, jlong face) {
 	return ((FT_Face)face)->max_advance_width;
 }
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1num_1faces(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1num_1faces(JNIEnv *env, jclass obj, jlong face) {
 	return ((FT_Face)face)->num_faces;
 }
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1num_1glyphs(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1num_1glyphs(JNIEnv *env, jclass obj, jlong face) {
 	return ((FT_Face)face)->num_glyphs;
 }
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1style_1flags(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1style_1flags(JNIEnv *env, jclass obj, jlong face) {
 	return ((FT_Face)face)->style_flags;
 }
-JNIEXPORT jstring JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1style_1name(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jstring JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1style_1name(JNIEnv *env, jclass obj, jlong face) {
 	return env->NewStringUTF(((FT_Face)face)->style_name);
 }
-JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1underline_1position(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1underline_1position(JNIEnv *env, jclass obj, jlong face) {
 	return ((FT_Face)face)->underline_position;
 }
-JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1underline_1thickness(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1underline_1thickness(JNIEnv *env, jclass obj, jlong face) {
 	return ((FT_Face)face)->underline_thickness;
 }
-JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1units_1per_1EM(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1units_1per_1EM(JNIEnv *env, jclass obj, jlong face) {
 	return ((FT_Face)face)->units_per_EM;
 }
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1size(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1size(JNIEnv *env, jclass obj, jlong face) {
 	return (jlong)(((FT_Face)face)->size);
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Get_1metrics(JNIEnv *env, jclass obj, jlong size) {
+	return (jlong)&(((FT_Size)size)->metrics);
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1ascender(JNIEnv *env, jclass obj, jlong sizeMetrics) {
+	return ((FT_Size_Metrics*)sizeMetrics)->ascender;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1descender(JNIEnv *env, jclass obj, jlong sizeMetrics) {
+	return ((FT_Size_Metrics*)sizeMetrics)->descender;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1height(JNIEnv *env, jclass obj, jlong sizeMetrics) {
+	return ((FT_Size_Metrics*)sizeMetrics)->height;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1max_1advance(JNIEnv *env, jclass obj, jlong sizeMetrics) {
+	return ((FT_Size_Metrics*)sizeMetrics)->max_advance;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1x_1ppem(JNIEnv *env, jclass obj, jlong sizeMetrics) {
+	return ((FT_Size_Metrics*)sizeMetrics)->x_ppem;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1x_1scale(JNIEnv *env, jclass obj, jlong sizeMetrics) {
+	return ((FT_Size_Metrics*)sizeMetrics)->x_scale;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1y_1ppem(JNIEnv *env, jclass obj, jlong sizeMetrics) {
+	return ((FT_Size_Metrics*)sizeMetrics)->y_ppem;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1y_1scale(JNIEnv *env, jclass obj, jlong sizeMetrics) {
+	return ((FT_Size_Metrics*)sizeMetrics)->y_scale;
 }
 JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1Char_1Index(JNIEnv *env, jclass obj, jlong face, jint code) {
 	return FT_Get_Char_Index((FT_Face)face, code);
@@ -124,7 +166,7 @@ JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Load_1Glyph(J
 	return FT_Load_Glyph((FT_Face)face, glyphIndex, loadFlags);
 }
 
-JNIEXPORT jlongArray JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1Kerning(JNIEnv *env, jclass org, jlong face, jchar left, jchar right, jint mode) {
+JNIEXPORT jlongArray JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1Kerning(JNIEnv *env, jclass org, jlong face, jchar left, jchar right, jint mode) {
 	FT_Vector vector;
 	if (FT_Get_Kerning((FT_Face)face, left, right, mode, &vector))
 		return 0;
@@ -139,34 +181,34 @@ JNIEXPORT jlongArray JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1Kernin
 
 	return result;
 }
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1KerningX(JNIEnv *env, jclass org, jlong face, jchar left, jchar right, jint mode) {
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1KerningX(JNIEnv *env, jclass org, jlong face, jchar left, jchar right, jint mode) {
 	FT_Vector vector;
 	if (FT_Get_Kerning((FT_Face)face, left, right, mode, &vector))
 		return 0;
 	return vector.x;
 }
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1KerningY(JNIEnv *env, jclass org, jlong face, jchar left, jchar right, jint mode) {
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1KerningY(JNIEnv *env, jclass org, jlong face, jchar left, jchar right, jint mode) {
 	FT_Vector vector;
 	if (FT_Get_Kerning((FT_Face)face, left, right, mode, &vector))
 		return 0;
 	return vector.y;
 }
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1glyph(JNIEnv *env, jclass obj, jlong face) {
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1glyph(JNIEnv *env, jclass obj, jlong face) {
 	return (jlong)((FT_Face)face)->glyph;
 }
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1linearHoriAdvance(JNIEnv *env, jclass ob, jlong glyph) {
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1linearHoriAdvance(JNIEnv *env, jclass obj, jlong glyph) {
 	return ((FT_GlyphSlot)glyph)->linearHoriAdvance;
 }
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1linearVertAdvance(JNIEnv *env, jclass ob, jlong glyph) {
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1linearVertAdvance(JNIEnv *env, jclass obj, jlong glyph) {
 	return ((FT_GlyphSlot)glyph)->linearVertAdvance;
 }
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1advanceX(JNIEnv *env, jclass ob, jlong glyph) {
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1advanceX(JNIEnv *env, jclass obj, jlong glyph) {
 	return ((FT_GlyphSlot)glyph)->advance.x;
 }
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1advanceY(JNIEnv *env, jclass ob, jlong glyph) {
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1advanceY(JNIEnv *env, jclass obj, jlong glyph) {
 	return ((FT_GlyphSlot)glyph)->advance.y;
 }
-JNIEXPORT jlongArray JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1advance(JNIEnv *env, jclass ob, jlong glyph) {
+JNIEXPORT jlongArray JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1advance(JNIEnv *env, jclass obj, jlong glyph) {
 	FT_Vector vector = ((FT_GlyphSlot)glyph)->advance;
 
 	jlongArray result = env->NewLongArray(2);
@@ -242,4 +284,25 @@ JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1
 }
 JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1vertBearingY(JNIEnv *env, jclass obj, jlong glyphMetrics) {
 	return ((FT_Glyph_Metrics*)glyphMetrics)->vertBearingY;
+}
+JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1CheckTrueTypePatents(JNIEnv *env, jclass obj, jlong face) {
+	return FT_Face_CheckTrueTypePatents((FT_Face)face);
+}
+JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1SetUnpatentedHinting(JNIEnv *env, jclass obj, jlong face, jboolean value) {
+	return FT_Face_SetUnpatentedHinting((FT_Face)face, value);
+}
+JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Reference_1Face(JNIEnv *env, jclass obj, jlong face) {
+	return FT_Reference_Face((FT_Face)face);
+}
+JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Request_1Size(JNIEnv *env, jclass obj, jlong face, jobject sizeRequest) {
+	jclass sizeRequestClass = env->GetObjectClass(sizeRequest);
+
+	FT_Size_RequestRec req = {};
+	req.height = env->GetLongField(sizeRequest, env->GetFieldID(sizeRequestClass, "height", "J"));
+	req.width = env->GetLongField(sizeRequest, env->GetFieldID(sizeRequestClass, "width", "J"));
+	req.horiResolution = env->GetIntField(sizeRequest, env->GetFieldID(sizeRequestClass, "horiResolution", "I"));
+	req.vertResolution = env->GetIntField(sizeRequest, env->GetFieldID(sizeRequestClass, "vertResolution", "I"));
+	req.type = (FT_Size_Request_Type)(env->GetIntField(sizeRequest, env->GetFieldID(sizeRequestClass, "type", "I")));
+
+	return FT_Request_Size((FT_Face)face, (FT_Size_Request)&req);
 }
