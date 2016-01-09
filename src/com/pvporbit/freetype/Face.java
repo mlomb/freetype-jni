@@ -2,6 +2,8 @@ package com.pvporbit.freetype;
 
 import java.nio.ByteBuffer;
 
+import com.pvporbit.freetype.Utils.Pointer;
+
 public class Face extends Pointer {
 
 	private ByteBuffer data; // Save to delete later

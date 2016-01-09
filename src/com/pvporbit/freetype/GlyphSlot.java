@@ -1,5 +1,8 @@
 package com.pvporbit.freetype;
 
+import com.pvporbit.freetype.FreeType.FT_Render_Mode;
+import com.pvporbit.freetype.Utils.Pointer;
+
 public class GlyphSlot extends Pointer {
 
 	public GlyphSlot(long pointer) {
@@ -39,5 +42,16 @@ public class GlyphSlot extends Pointer {
 
 	public int getBitmapTop() {
 		return FreeType.FT_GlyphSlot_Get_bitmap_top(pointer);
+	}
+
+	public GlyphMetrics getMetrics() {
+		long metrics = FreeType.FT_GlyphSlot_Get_metrics(pointer);
+		if (metrics <= 0)
+			return null;
+		return new GlyphMetrics(metrics);
+	}
+
+	public boolean renderGlyph(FT_Render_Mode renderMode) {
+		return FreeType.FT_Render_Glyph(pointer, renderMode.ordinal());
 	}
 }

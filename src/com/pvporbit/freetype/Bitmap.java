@@ -2,6 +2,8 @@ package com.pvporbit.freetype;
 
 import java.nio.ByteBuffer;
 
+import com.pvporbit.freetype.Utils.Pointer;
+
 public class Bitmap extends Pointer {
 
 	public Bitmap(long pointer) {

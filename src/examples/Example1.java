@@ -8,13 +8,7 @@ import com.pvporbit.freetype.Library;
 public class Example1 {
 
 	public static void main(String args[]) throws Exception {
-		String libName = "freetype26MT_x64";
 		String fontPath = "res/OpenSans-Regular.ttf";
-
-		/* --- Load library from selected native folder --- */
-		// Native folder ${workspace_loc:FreeType-jni/freetype/builds/x64}
-		System.loadLibrary(libName);
-		System.out.println("Library loaded.");
 
 		/* --- Init FreeType --- */
 		Library library = FreeType.newLibrary();

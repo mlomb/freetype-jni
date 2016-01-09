@@ -179,17 +179,23 @@ JNIEXPORT jlongArray JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1
 
 	return result;
 }
-JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1format(JNIEnv *env, jclass ob, jlong glyph) {
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1format(JNIEnv *env, jclass obj, jlong glyph) {
 	return ((FT_GlyphSlot)glyph)->format;
 }
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1bitmap(JNIEnv *env, jclass ob, jlong glyph) {
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1bitmap(JNIEnv *env, jclass obj, jlong glyph) {
 	return (jlong)(&((FT_GlyphSlot)glyph)->bitmap);
 }
-JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1bitmap_1left(JNIEnv *env, jclass ob, jlong glyph) {
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1bitmap_1left(JNIEnv *env, jclass obj, jlong glyph) {
 	return ((FT_GlyphSlot)glyph)->bitmap_left;
 }
-JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1bitmap_1top(JNIEnv *env, jclass ob, jlong glyph) {
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1bitmap_1top(JNIEnv *env, jclass obj, jlong glyph) {
 	return ((FT_GlyphSlot)glyph)->bitmap_top;
+}
+JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Render_1Glyph(JNIEnv *env, jclass obj, jlong glyph, jint renderMode) {
+	return FT_Render_Glyph((FT_GlyphSlot)glyph, (FT_Render_Mode)renderMode);
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1metrics(JNIEnv *env, jclass obj, jlong glyph) {
+	return (jlong)&((FT_GlyphSlot)glyph)->metrics;
 }
 JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1width(JNIEnv *env, jclass obj, jlong bitmap) {
 	return ((FT_Bitmap*)bitmap)->width;
@@ -211,5 +217,29 @@ JNIEXPORT jchar JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1pix
 }
 JNIEXPORT jobject JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1buffer(JNIEnv *env, jclass obj, jlong bitmap) {
 	FT_Bitmap* bmp = (FT_Bitmap*)bitmap;
-	return env->NewDirectByteBuffer((void*)bmp->buffer, bmp->rows * abs(bmp->pitch) * bmp->width);
+	return env->NewDirectByteBuffer((void*)bmp->buffer, bmp->rows * bmp->width * abs(bmp->pitch));
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1width(JNIEnv *env, jclass obj, jlong glyphMetrics) {
+	return ((FT_Glyph_Metrics*)glyphMetrics)->width;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1height(JNIEnv *env, jclass obj, jlong glyphMetrics) {
+	return ((FT_Glyph_Metrics*)glyphMetrics)->height;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1horiAdvance(JNIEnv *env, jclass obj, jlong glyphMetrics) {
+	return ((FT_Glyph_Metrics*)glyphMetrics)->horiAdvance;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1vertAdvance(JNIEnv *env, jclass obj, jlong glyphMetrics) {
+	return ((FT_Glyph_Metrics*)glyphMetrics)->vertAdvance;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1horiBearingX(JNIEnv *env, jclass obj, jlong glyphMetrics) {
+	return ((FT_Glyph_Metrics*)glyphMetrics)->horiBearingX;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1horiBearingY(JNIEnv *env, jclass obj, jlong glyphMetrics) {
+	return ((FT_Glyph_Metrics*)glyphMetrics)->horiBearingY;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1vertBearingX(JNIEnv *env, jclass obj, jlong glyphMetrics) {
+	return ((FT_Glyph_Metrics*)glyphMetrics)->vertBearingX;
+}
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1vertBearingY(JNIEnv *env, jclass obj, jlong glyphMetrics) {
+	return ((FT_Glyph_Metrics*)glyphMetrics)->vertBearingY;
 }

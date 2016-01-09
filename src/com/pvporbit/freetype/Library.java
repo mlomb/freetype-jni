@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import com.pvporbit.freetype.Utils.Pointer;
+
 public class Library extends Pointer {
 
 	public Library(long pointer) {

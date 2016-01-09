@@ -7,9 +7,8 @@ public class FreeType {
 	/* FreeType functions */
 
 	// Library
-	public static native long FT_Init_FreeType();
+	public static native long    FT_Init_FreeType();
 	public static native boolean FT_Done_FreeType(long library); 
-	public static native long FT_New_Memory_Face(long library, ByteBuffer data, int length, int faceIndex);
 	
 	// Face
 	public static native short FT_Get_ascender(long face);
@@ -27,6 +26,14 @@ public class FreeType {
 	public static native short FT_Get_underline_position(long face);
 	public static native short FT_Get_underline_thickness(long face);
 	public static native short FT_Get_units_per_EM(long face);
+	public static native long[] FT_Get_Kerning(long face, char left, char right, int mode); // [x, y]
+	public static native long FT_Get_KerningX(long face, char left, char right, int mode);
+	public static native long FT_Get_KerningY(long face, char left, char right, int mode);
+	public static native long FT_Get_glyph(long face); // Pointer to FT_GlyphSlot
+	public static native long FT_Get_size(long face); // Pointer to FT_Size TODO
+	
+	public static native long FT_New_Memory_Face(long library, ByteBuffer data, int length, int faceIndex);
+	public static native boolean FT_Done_Face(long face);
 	public static native int FT_Get_Char_Index(long face, int code);
 	public static native boolean FT_HAS_KERNING(long face);
 	public static native boolean FT_Select_Size(long face, int strikeIndex);
@@ -34,35 +41,43 @@ public class FreeType {
 	public static native boolean FT_Load_Glyph(long face, int glyphIndex, int loadFlags);
 	public static native boolean FT_Set_Pixel_Sizes(long face, float width, float height);
 	public static native boolean FT_Load_Char(long face, char c, int flags);
-	public static native boolean FT_Done_Face(long face);
-	public static native long[] FT_Get_Kerning(long face, char left, char right, int mode); // [x, y]
-	public static native long FT_Get_KerningX(long face, char left, char right, int mode);
-	public static native long FT_Get_KerningY(long face, char left, char right, int mode);
-	public static native long FT_Get_glyph(long face);
-	public static native long FT_Get_size(long face); // TODO is a pointer to FT_Size
-	// Implemented ↑ | TODO ↓
 
+	// GlyphSlot
+	public static native long    FT_GlyphSlot_Get_linearHoriAdvance(long glyphSlot);
+	public static native long    FT_GlyphSlot_Get_linearVertAdvance(long glyphSlot);
+	public static native long[]  FT_GlyphSlot_Get_advance          (long glyphSlot);
+	public static native long    FT_GlyphSlot_Get_advanceX         (long glyphSlot);
+	public static native long    FT_GlyphSlot_Get_advanceY         (long glyphSlot);
+	public static native int     FT_GlyphSlot_Get_format           (long glyphSlot);
+	public static native long    FT_GlyphSlot_Get_bitmap           (long glyphSlot); // Pointer to Bitmap
+	public static native int     FT_GlyphSlot_Get_bitmap_left      (long glyphSlot);
+	public static native int     FT_GlyphSlot_Get_bitmap_top       (long glyphSlot);
+	public static native long    FT_GlyphSlot_Get_metrics          (long glyphSlot); // Pointer to GlyphMetrics
+
+	public static native boolean FT_Render_Glyph                   (long glyphSlot, int renderMode); // Pointer to Glyph
+	
+	// GlyphMetrics - DONE
+	public static native long FT_Glyph_Metrics_Get_width       (long glyphMetrics);
+	public static native long FT_Glyph_Metrics_Get_height      (long glyphMetrics);
+	public static native long FT_Glyph_Metrics_Get_horiAdvance (long glyphMetrics);
+	public static native long FT_Glyph_Metrics_Get_vertAdvance (long glyphMetrics);
+	public static native long FT_Glyph_Metrics_Get_horiBearingX(long glyphMetrics);
+	public static native long FT_Glyph_Metrics_Get_horiBearingY(long glyphMetrics);
+	public static native long FT_Glyph_Metrics_Get_vertBearingX(long glyphMetrics);
+	public static native long FT_Glyph_Metrics_Get_vertBearingY(long glyphMetrics);
+	
+	// Bitmap - DONE
+	public static native int        FT_Bitmap_Get_width       (long bitmap);
+	public static native int        FT_Bitmap_Get_rows        (long bitmap);
+	public static native int        FT_Bitmap_Get_pitch       (long bitmap);
+	public static native short      FT_Bitmap_Get_num_grays	  (long bitmap);
+	public static native char       FT_Bitmap_Get_palette_mode(long bitmap);
+	public static native char       FT_Bitmap_Get_pixel_mode  (long bitmap);
+	public static native ByteBuffer FT_Bitmap_Get_buffer	  (long bitmap);
+	
 	// Glyph
-	public static native long FT_GlyphSlot_Get_linearHoriAdvance(long glyphSlot);
-	public static native long FT_GlyphSlot_Get_linearVertAdvance(long glyphSlot);
-	public static native long[] FT_GlyphSlot_Get_advance(long glyphSlot);
-	public static native long FT_GlyphSlot_Get_advanceX(long glyphSlot);
-	public static native long FT_GlyphSlot_Get_advanceY(long glyphSlot);
-	public static native int FT_GlyphSlot_Get_format(long glyphSlot);
-	public static native long FT_GlyphSlot_Get_bitmap(long glyphSlot);
-	public static native int FT_GlyphSlot_Get_bitmap_left(long glyphSlot);
-	public static native int FT_GlyphSlot_Get_bitmap_top(long glyphSlot);
-	
-	// Bitmap
-	public static native int FT_Bitmap_Get_width(long bitmap);
-	public static native int FT_Bitmap_Get_rows(long bitmap);
-	public static native int FT_Bitmap_Get_pitch(long bitmap);
-	public static native short FT_Bitmap_Get_num_grays(long bitmap);
-	public static native char FT_Bitmap_Get_palette_mode(long bitmap);
-	public static native char FT_Bitmap_Get_pixel_mode(long bitmap);
-	public static native ByteBuffer FT_Bitmap_Get_buffer(long bitmap);
-	
 	// Implemented ↑ | TODO ↓
+	
 	
 	/* Java Object functions */
 
@@ -75,6 +90,16 @@ public class FreeType {
 
 	/* FreeType constants */
 
+	public static enum FT_Render_Mode {
+	    FT_RENDER_MODE_NORMAL,
+	    FT_RENDER_MODE_LIGHT,
+	    FT_RENDER_MODE_MONO,
+	    FT_RENDER_MODE_LCD,
+	    FT_RENDER_MODE_LCD_V,
+
+	    FT_RENDER_MODE_MAX
+	}
+	
 	// http://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html#FT_LOAD_XXX
 	public static final int FT_LOAD_DEFAULT = 0x0;
 	public static final int FT_LOAD_NO_SCALE = (1 << 0);
@@ -94,4 +119,21 @@ public class FreeType {
 	/* Bits 16..19 are used by `FT_LOAD_TARGET_' */
 	public static final int FT_LOAD_COLOR = (1 << 20);
 	public static final int FT_LOAD_COMPUTE_METRICS = (1 << 21);
+	
+	static { // Horrible method to load the library, but w/e.
+		try {
+			if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
+				int bits = 86;
+				if (System.getProperty("os.arch").contains("64"))
+					bits = 64;
+				System.loadLibrary("freetype26MT_x" + bits);
+			} else
+				throw new Exception("Operating system not supported.");
+		} catch (UnsatisfiedLinkError e) {
+			System.err.println("Can't find the native file for FreeType-jni.");
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

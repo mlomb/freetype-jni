@@ -7,6 +7,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class Utils {
+	
+	public static class Pointer {
+		protected long pointer;
+
+		public Pointer(long pointer) {
+			this.pointer = pointer;
+		}
+
+		public long getPointer() {
+			return pointer;
+		}
+	}
 
 	public static byte[] loadFileToByteArray(String file) throws IOException { // If you know a fastest method, tell me. I will trust in Java 7.
 		Path p = FileSystems.getDefault().getPath(file);
