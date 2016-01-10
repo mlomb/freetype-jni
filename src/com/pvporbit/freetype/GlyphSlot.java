@@ -1,6 +1,6 @@
 package com.pvporbit.freetype;
 
-import com.pvporbit.freetype.FreeType.FT_Render_Mode;
+import com.pvporbit.freetype.FreeTypeConstants.FT_Render_Mode;
 import com.pvporbit.freetype.Utils.Pointer;
 
 public class GlyphSlot extends Pointer {
@@ -24,12 +24,8 @@ public class GlyphSlot extends Pointer {
 		return FreeType.FT_GlyphSlot_Get_linearVertAdvance(pointer);
 	}
 
-	public long getAdvanceX() {
-		return FreeType.FT_GlyphSlot_Get_advanceX(pointer);
-	}
-
-	public long getAdvanceY() {
-		return FreeType.FT_GlyphSlot_Get_advanceY(pointer);
+	public Advance getAdvance() {
+		return FreeType.FT_GlyphSlot_Get_advance(pointer);
 	}
 
 	public int getFormat() {
@@ -53,5 +49,28 @@ public class GlyphSlot extends Pointer {
 
 	public boolean renderGlyph(FT_Render_Mode renderMode) {
 		return FreeType.FT_Render_Glyph(pointer, renderMode.ordinal());
+	}
+
+	public static class Advance {
+
+		private final int x, y;
+
+		public Advance(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		public int getX() {
+			return x;
+		}
+
+		public int getY() {
+			return y;
+		}
+
+		@Override
+		public String toString() {
+			return "(" + x + "," + y + ")";
+		}
 	}
 }

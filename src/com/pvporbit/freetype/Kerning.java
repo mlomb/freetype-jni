@@ -2,18 +2,18 @@ package com.pvporbit.freetype;
 
 public class Kerning {
 
-	private final long x, y;
+	private final int x, y;
 
-	public Kerning(long x, long y) {
+	public Kerning(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	public long getHorizontalKerning() {
+	public int getHorizontalKerning() {
 		return x;
 	}
 
-	public long getVerticalKerning() {
+	public int getVerticalKerning() {
 		return y;
 	}
 

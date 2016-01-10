@@ -41,24 +41,7 @@ public class Library extends Pointer {
 		return new Face(face, file);
 	}
 
-	public int[] getVersion() {
+	public LibraryVersion getVersion() {
 		return FreeType.FT_Library_Version(pointer);
-	}
-
-	public int getVersionMajor() {
-		return getVersion()[0];
-	}
-
-	public int getVersionMinor() {
-		return getVersion()[1];
-	}
-
-	public int getVersionPatch() {
-		return getVersion()[2];
-	}
-
-	public String getVersionString() {
-		int[] version = getVersion();
-		return version[0] + "." + version[1] + "." + version[2];
 	}
 }

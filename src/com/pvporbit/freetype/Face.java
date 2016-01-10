@@ -2,7 +2,7 @@ package com.pvporbit.freetype;
 
 import java.nio.ByteBuffer;
 
-import com.pvporbit.freetype.FreeType.FT_Size_Request_Type;
+import com.pvporbit.freetype.FreeTypeConstants.FT_Kerning_Mode;
 import com.pvporbit.freetype.Utils.Pointer;
 
 public class Face extends Pointer {
@@ -23,11 +23,11 @@ public class Face extends Pointer {
 		return FreeType.FT_Done_Face(pointer);
 	}
 
-	public short getAscender() {
+	public int getAscender() {
 		return FreeType.FT_Face_Get_ascender(pointer);
 	}
 
-	public short getDescender() {
+	public int getDescender() {
 		return FreeType.FT_Face_Get_descender(pointer);
 	}
 
@@ -35,7 +35,7 @@ public class Face extends Pointer {
 		return FreeType.FT_Face_Get_face_flags(pointer);
 	}
 
-	public long getFaceIndex() {
+	public int getFaceIndex() {
 		return FreeType.FT_Face_Get_face_index(pointer);
 	}
 
@@ -43,23 +43,23 @@ public class Face extends Pointer {
 		return FreeType.FT_Face_Get_family_name(pointer);
 	}
 
-	public short getHeight() {
+	public int getHeight() {
 		return FreeType.FT_Face_Get_heigth(pointer);
 	}
 
-	public short getMaxAdvanceHeight() {
+	public int getMaxAdvanceHeight() {
 		return FreeType.FT_Face_Get_max_advance_height(pointer);
 	}
 
-	public short getMaxAdvanceWidth() {
+	public int getMaxAdvanceWidth() {
 		return FreeType.FT_Face_Get_max_advance_width(pointer);
 	}
 
-	public long getNumFaces() {
+	public int getNumFaces() {
 		return FreeType.FT_Face_Get_num_faces(pointer);
 	}
 
-	public long getNumGlyphs() {
+	public int getNumGlyphs() {
 		return FreeType.FT_Face_Get_num_glyphs(pointer);
 	}
 
@@ -71,15 +71,15 @@ public class Face extends Pointer {
 		return FreeType.FT_Face_Get_style_name(pointer);
 	}
 
-	public short getUnderlinePosition() {
+	public int getUnderlinePosition() {
 		return FreeType.FT_Face_Get_underline_position(pointer);
 	}
 
-	public short getUnderlineThickness() {
+	public int getUnderlineThickness() {
 		return FreeType.FT_Face_Get_underline_thickness(pointer);
 	}
 
-	public short getUnitsPerEM() {
+	public int getUnitsPerEM() {
 		return FreeType.FT_Face_Get_units_per_EM(pointer);
 	}
 
@@ -108,14 +108,11 @@ public class Face extends Pointer {
 	}
 
 	public Kerning getKerning(char left, char right) {
-		return getKerning(left, right, 0);
+		return getKerning(left, right, FT_Kerning_Mode.FT_KERNING_DEFAULT);
 	}
 
-	public Kerning getKerning(char left, char right, int mode) {
-		long[] vector = FreeType.FT_Face_Get_Kerning(pointer, left, right, mode);
-		if (vector.length == 0)
-			return null;
-		return new Kerning(vector[0], vector[1]);
+	public Kerning getKerning(char left, char right, FT_Kerning_Mode mode) {
+		return FreeType.FT_Face_Get_Kerning(pointer, left, right, mode.ordinal());
 	}
 
 	public boolean setPixelSizes(float width, float height) {
@@ -150,5 +147,49 @@ public class Face extends Pointer {
 
 	public boolean requestSize(SizeRequest sr) {
 		return FreeType.FT_Request_Size(pointer, sr);
+	}
+
+	public int[] getFirstChar() {
+		return FreeType.FT_Get_First_Char(pointer);
+	}
+
+	public int getFirstCharAsCharcode() {
+		return getFirstChar()[0];
+	}
+
+	public int getFirstCharAsGlyphIndex() {
+		return getFirstChar()[1];
+	}
+
+	public int getNextChar(long charcode) { // I will not create getNextCharAsCharcode to do charcode++.
+		return FreeType.FT_Get_Next_Char(pointer, charcode);
+	}
+
+	public int getGlyphIndexByName(String name) {
+		return FreeType.FT_Get_Name_Index(pointer, name);
+	}
+
+	public long getTrackKerning(int point_size, int degree) {
+		return FreeType.FT_Get_Track_Kerning(pointer, point_size, degree);
+	}
+
+	public String getGlyphName(int glyphIndex) {
+		return FreeType.FT_Get_Glyph_Name(pointer, glyphIndex);
+	}
+
+	public String getPostscriptName() {
+		return FreeType.FT_Get_Postscript_Name(pointer);
+	}
+
+	public boolean selectCharmap(int encoding) {
+		return FreeType.FT_Select_Charmap(pointer, encoding);
+	}
+
+	public boolean setCharmap(CharMap charmap) {
+		return FreeType.FT_Set_Charmap(pointer, charmap.getPointer());
+	}
+
+	public short getFSTypeFlags() {
+		return FreeType.FT_Get_FSType_Flags(pointer);
 	}
 }

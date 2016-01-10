@@ -7,40 +7,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_DEFAULT
-#define com_pvporbit_freetype_FreeType_FT_LOAD_DEFAULT 0L
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_NO_SCALE
-#define com_pvporbit_freetype_FreeType_FT_LOAD_NO_SCALE 1L
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_NO_HINTING
-#define com_pvporbit_freetype_FreeType_FT_LOAD_NO_HINTING 2L
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_RENDER
-#define com_pvporbit_freetype_FreeType_FT_LOAD_RENDER 4L
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_NO_BITMAP
-#define com_pvporbit_freetype_FreeType_FT_LOAD_NO_BITMAP 8L
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_VERTICAL_LAYOUT
-#define com_pvporbit_freetype_FreeType_FT_LOAD_VERTICAL_LAYOUT 16L
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_FORCE_AUTOHINT
-#define com_pvporbit_freetype_FreeType_FT_LOAD_FORCE_AUTOHINT 32L
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_CROP_BITMAP
-#define com_pvporbit_freetype_FreeType_FT_LOAD_CROP_BITMAP 64L
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_PEDANTIC
-#define com_pvporbit_freetype_FreeType_FT_LOAD_PEDANTIC 128L
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_IGNORE_GLOBAL_ADVANCE_WIDTH
-#define com_pvporbit_freetype_FreeType_FT_LOAD_IGNORE_GLOBAL_ADVANCE_WIDTH 512L
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_NO_RECURSE
-#define com_pvporbit_freetype_FreeType_FT_LOAD_NO_RECURSE 1024L
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_IGNORE_TRANSFORM
-#define com_pvporbit_freetype_FreeType_FT_LOAD_IGNORE_TRANSFORM 2048L
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_MONOCHROME
-#define com_pvporbit_freetype_FreeType_FT_LOAD_MONOCHROME 4096L
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_LINEAR_DESIGN
-#define com_pvporbit_freetype_FreeType_FT_LOAD_LINEAR_DESIGN 8192L
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_NO_AUTOHINT
-#define com_pvporbit_freetype_FreeType_FT_LOAD_NO_AUTOHINT 32768L
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_COLOR
-#define com_pvporbit_freetype_FreeType_FT_LOAD_COLOR 1048576L
-#undef com_pvporbit_freetype_FreeType_FT_LOAD_COMPUTE_METRICS
-#define com_pvporbit_freetype_FreeType_FT_LOAD_COMPUTE_METRICS 2097152L
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Init_FreeType
@@ -59,6 +25,14 @@ JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Done_1FreeTyp
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Library_Version
+ * Signature: (J)Lcom/pvporbit/freetype/LibraryVersion;
+ */
+JNIEXPORT jobject JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Library_1Version
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_New_Memory_Face
  * Signature: (JLjava/nio/ByteBuffer;IJ)J
  */
@@ -67,26 +41,18 @@ JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1New_1Memory_1Fac
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
- * Method:    FT_Library_Version
- * Signature: (J)[I
- */
-JNIEXPORT jintArray JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Library_1Version
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Face_Get_ascender
- * Signature: (J)S
+ * Signature: (J)I
  */
-JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1ascender
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1ascender
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Face_Get_descender
- * Signature: (J)S
+ * Signature: (J)I
  */
-JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1descender
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1descender
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -100,9 +66,9 @@ JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1face_
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Face_Get_face_index
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1face_1index
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1face_1index
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -116,41 +82,41 @@ JNIEXPORT jstring JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1fam
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Face_Get_heigth
- * Signature: (J)S
+ * Signature: (J)I
  */
-JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1heigth
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1heigth
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Face_Get_max_advance_height
- * Signature: (J)S
+ * Signature: (J)I
  */
-JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1max_1advance_1height
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1max_1advance_1height
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Face_Get_max_advance_width
- * Signature: (J)S
+ * Signature: (J)I
  */
-JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1max_1advance_1width
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1max_1advance_1width
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Face_Get_num_faces
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1num_1faces
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1num_1faces
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Face_Get_num_glyphs
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1num_1glyphs
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1num_1glyphs
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -172,50 +138,42 @@ JNIEXPORT jstring JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1sty
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Face_Get_underline_position
- * Signature: (J)S
+ * Signature: (J)I
  */
-JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1underline_1position
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1underline_1position
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Face_Get_underline_thickness
- * Signature: (J)S
+ * Signature: (J)I
  */
-JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1underline_1thickness
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1underline_1thickness
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Face_Get_units_per_EM
- * Signature: (J)S
+ * Signature: (J)I
  */
-JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1units_1per_1EM
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1units_1per_1EM
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Face_Get_Kerning
- * Signature: (JCCI)[J
+ * Signature: (JCCI)Lcom/pvporbit/freetype/Kerning;
  */
-JNIEXPORT jlongArray JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1Kerning
+JNIEXPORT jobject JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1Kerning
   (JNIEnv *, jclass, jlong, jchar, jchar, jint);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
- * Method:    FT_Face_Get_KerningX
- * Signature: (JCCI)J
+ * Method:    FT_Get_Track_Kerning
+ * Signature: (JJI)J
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1KerningX
-  (JNIEnv *, jclass, jlong, jchar, jchar, jint);
-
-/*
- * Class:     com_pvporbit_freetype_FreeType
- * Method:    FT_Face_Get_KerningY
- * Signature: (JCCI)J
- */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1KerningY
-  (JNIEnv *, jclass, jlong, jchar, jchar, jint);
+JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1Track_1Kerning
+  (JNIEnv *, jclass, jlong, jlong, jint);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
@@ -235,11 +193,51 @@ JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1Get_1size
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Done_Face
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Done_1Face
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Reference_Face
  * Signature: (J)Z
  */
 JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Reference_1Face
   (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_HAS_KERNING
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1HAS_1KERNING
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Get_Postscript_Name
+ * Signature: (J)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1Postscript_1Name
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Select_Charmap
+ * Signature: (JI)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Select_1Charmap
+  (JNIEnv *, jclass, jlong, jint);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Set_Charmap
+ * Signature: (JJ)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Set_1Charmap
+  (JNIEnv *, jclass, jlong, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
@@ -259,19 +257,19 @@ JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Face_1SetUnpa
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
- * Method:    FT_Request_Size
- * Signature: (JLcom/pvporbit/freetype/SizeRequest;)Z
+ * Method:    FT_Get_First_Char
+ * Signature: (J)[I
  */
-JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Request_1Size
-  (JNIEnv *, jclass, jlong, jobject);
+JNIEXPORT jintArray JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1First_1Char
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
- * Method:    FT_Done_Face
- * Signature: (J)Z
+ * Method:    FT_Get_Next_Char
+ * Signature: (JJ)I
  */
-JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Done_1Face
-  (JNIEnv *, jclass, jlong);
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1Next_1Char
+  (JNIEnv *, jclass, jlong, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
@@ -283,10 +281,26 @@ JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1Char_1Index
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
- * Method:    FT_HAS_KERNING
- * Signature: (J)Z
+ * Method:    FT_Get_Name_Index
+ * Signature: (JLjava/lang/String;)I
  */
-JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1HAS_1KERNING
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1Name_1Index
+  (JNIEnv *, jclass, jlong, jstring);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Get_Glyph_Name
+ * Signature: (JI)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1Glyph_1Name
+  (JNIEnv *, jclass, jlong, jint);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Get_FSType_Flags
+ * Signature: (J)S
+ */
+JNIEXPORT jshort JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1FSType_1Flags
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -299,11 +313,19 @@ JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Select_1Size
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
- * Method:    FT_Set_Char_Size
- * Signature: (JIIII)Z
+ * Method:    FT_Load_Char
+ * Signature: (JCI)Z
  */
-JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Set_1Char_1Size
-  (JNIEnv *, jclass, jlong, jint, jint, jint, jint);
+JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Load_1Char
+  (JNIEnv *, jclass, jlong, jchar, jint);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Request_Size
+ * Signature: (JLcom/pvporbit/freetype/SizeRequest;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Request_1Size
+  (JNIEnv *, jclass, jlong, jobject);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
@@ -323,11 +345,11 @@ JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Load_1Glyph
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
- * Method:    FT_Load_Char
- * Signature: (JCI)Z
+ * Method:    FT_Set_Char_Size
+ * Signature: (JIIII)Z
  */
-JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Load_1Char
-  (JNIEnv *, jclass, jlong, jchar, jint);
+JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Set_1Char_1Size
+  (JNIEnv *, jclass, jlong, jint, jint, jint, jint);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
@@ -340,65 +362,65 @@ JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Get_1metri
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Size_Metrics_Get_ascender
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1ascender
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1ascender
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Size_Metrics_Get_descender
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1descender
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1descender
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Size_Metrics_Get_height
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1height
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1height
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Size_Metrics_Get_max_advance
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1max_1advance
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1max_1advance
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Size_Metrics_Get_x_ppem
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1x_1ppem
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1x_1ppem
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Size_Metrics_Get_x_scale
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1x_1scale
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1x_1scale
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Size_Metrics_Get_y_ppem
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1y_1ppem
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1y_1ppem
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Size_Metrics_Get_y_scale
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1y_1scale
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Size_1Metrics_1Get_1y_1scale
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -420,25 +442,9 @@ JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_GlyphSlot_Get_advance
- * Signature: (J)[J
+ * Signature: (J)Lcom/pvporbit/freetype/GlyphSlot/Advance;
  */
-JNIEXPORT jlongArray JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1advance
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     com_pvporbit_freetype_FreeType
- * Method:    FT_GlyphSlot_Get_advanceX
- * Signature: (J)J
- */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1advanceX
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     com_pvporbit_freetype_FreeType
- * Method:    FT_GlyphSlot_Get_advanceY
- * Signature: (J)J
- */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1advanceY
+JNIEXPORT jobject JNICALL Java_com_pvporbit_freetype_FreeType_FT_1GlyphSlot_1Get_1advance
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -492,65 +498,65 @@ JNIEXPORT jboolean JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Render_1Glyph
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Glyph_Metrics_Get_width
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1width
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1width
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Glyph_Metrics_Get_height
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1height
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1height
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Glyph_Metrics_Get_horiAdvance
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1horiAdvance
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1horiAdvance
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Glyph_Metrics_Get_vertAdvance
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1vertAdvance
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1vertAdvance
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Glyph_Metrics_Get_horiBearingX
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1horiBearingX
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1horiBearingX
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Glyph_Metrics_Get_horiBearingY
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1horiBearingY
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1horiBearingY
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Glyph_Metrics_Get_vertBearingX
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1vertBearingX
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1vertBearingX
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_pvporbit_freetype_FreeType
  * Method:    FT_Glyph_Metrics_Get_vertBearingY
- * Signature: (J)J
+ * Signature: (J)I
  */
-JNIEXPORT jlong JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1vertBearingY
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Glyph_1Metrics_1Get_1vertBearingY
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -607,6 +613,14 @@ JNIEXPORT jchar JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1pix
  * Signature: (J)Ljava/nio/ByteBuffer;
  */
 JNIEXPORT jobject JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Bitmap_1Get_1buffer
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_pvporbit_freetype_FreeType
+ * Method:    FT_Get_Charmap_Index
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_pvporbit_freetype_FreeType_FT_1Get_1Charmap_1Index
   (JNIEnv *, jclass, jlong);
 
 #ifdef __cplusplus

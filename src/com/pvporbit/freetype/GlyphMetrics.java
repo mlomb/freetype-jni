@@ -8,35 +8,35 @@ public class GlyphMetrics extends Pointer {
 		super(pointer);
 	}
 
-	public long getWidth() {
+	public int getWidth() {
 		return FreeType.FT_Glyph_Metrics_Get_width(pointer);
 	}
 
-	public long getHeight() {
+	public int getHeight() {
 		return FreeType.FT_Glyph_Metrics_Get_height(pointer);
 	}
 
-	public long getHoriAdvance() {
+	public int getHoriAdvance() {
 		return FreeType.FT_Glyph_Metrics_Get_horiAdvance(pointer);
 	}
 
-	public long getVertAdvance() {
+	public int getVertAdvance() {
 		return FreeType.FT_Glyph_Metrics_Get_vertAdvance(pointer);
 	}
 
-	public long getHoriBearingX() {
+	public int getHoriBearingX() {
 		return FreeType.FT_Glyph_Metrics_Get_horiBearingX(pointer);
 	}
 
-	public long getHoriBearingY() {
+	public int getHoriBearingY() {
 		return FreeType.FT_Glyph_Metrics_Get_horiBearingY(pointer);
 	}
 
-	public long getVertBearingX() {
+	public int getVertBearingX() {
 		return FreeType.FT_Glyph_Metrics_Get_vertBearingX(pointer);
 	}
 
-	public long getVertBearingY() {
+	public int getVertBearingY() {
 		return FreeType.FT_Glyph_Metrics_Get_vertBearingY(pointer);
 	}
 }
