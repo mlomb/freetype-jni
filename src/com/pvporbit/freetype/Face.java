@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import com.pvporbit.freetype.FreeTypeConstants.FT_Kerning_Mode;
 import com.pvporbit.freetype.Utils.Pointer;
 
+/** A handle to a given typographic face object. A face object models a given typeface, in a given style. */
 public class Face extends Pointer {
 
 	private ByteBuffer data; // Save to delete later
@@ -15,6 +16,7 @@ public class Face extends Pointer {
 
 	public Face(long pointer, ByteBuffer data) {
 		super(pointer);
+		this.data = data;
 	}
 
 	public boolean delete() {
