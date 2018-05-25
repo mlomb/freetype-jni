@@ -132,6 +132,8 @@ public class FreeType {
 				if (System.getProperty("os.arch").contains("64"))
 					bits = 64;
 				System.loadLibrary("freetype-jni-" + bits);
+			} else if (System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0) {
+				System.loadLibrary("freetype-jni");
 			} else
 				throw new Exception("Operating system not supported.");
 		} catch (UnsatisfiedLinkError e) {
