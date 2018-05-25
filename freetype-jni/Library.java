@@ -6,7 +6,7 @@ import java.nio.ByteOrder;
 
 import com.mlomb.freetypejni.Utils.Pointer;
 
-/** Each library is completely independent from the others; it is the ‘root’ of a set of objects like fonts, faces, sizes, etc. */
+/** Each library is completely independent from the others; it is the 'root' of a set of objects like fonts, faces, sizes, etc. */
 public class Library extends Pointer {
 
 	public Library(long pointer) {
