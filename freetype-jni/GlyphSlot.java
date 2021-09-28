@@ -3,6 +3,7 @@ package com.mlomb.freetypejni;
 import com.mlomb.freetypejni.FreeTypeConstants.FT_Render_Mode;
 import com.mlomb.freetypejni.Utils.Pointer;
 import com.mlomb.freetypejni.Bitmap;
+import com.mlomb.freetypejni.Outline;
 
 public class GlyphSlot extends Pointer {
 
@@ -16,6 +17,13 @@ public class GlyphSlot extends Pointer {
 			return null;
 		return new Bitmap(bitmap);
 	}
+
+	public Outline getOutline() {
+    		long outline = FreeType.FT_GlyphSlot_Get_outline(pointer);
+    		if (outline <= 0)
+    			return null;
+    		return new Outline(outline);
+    	}
 
 	public long getLinearHoriAdvance() {
 		return FreeType.FT_GlyphSlot_Get_linearHoriAdvance(pointer);

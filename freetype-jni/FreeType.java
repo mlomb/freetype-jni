@@ -84,6 +84,7 @@ public class FreeType {
 	public static native int     FT_GlyphSlot_Get_bitmap_top       (long glyphSlot);
 	public static native long    FT_GlyphSlot_Get_bitmap           (long glyphSlot); /* Pointer to Bitmap */
 	public static native long    FT_GlyphSlot_Get_metrics          (long glyphSlot); /* Pointer to GlyphMetrics */
+	public static native long    FT_GlyphSlot_Get_outline          (long glyphSlot);
 
 //	public static native long     FT_Get_Glyph                      (long glyphSlot); /* Pointer to Glyph */
 //	public static native SubGlyph FT_Get_SubGlyph_Info				(long glyphSlot, int subIndex);
@@ -107,7 +108,10 @@ public class FreeType {
 	public static native char       FT_Bitmap_Get_palette_mode(long bitmap);
 	public static native char       FT_Bitmap_Get_pixel_mode  (long bitmap);
 	public static native ByteBuffer FT_Bitmap_Get_buffer	  (long bitmap);
-	
+
+	// --- Outline
+	public static native int        FT_Outline_Get_points       (long outline);
+
 	// ---- Charmap
 	public static native int FT_Get_Charmap_Index(long charmap);
 	

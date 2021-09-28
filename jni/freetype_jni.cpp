@@ -2,9 +2,30 @@
 #include "com_mlomb_freetypejni_Utils.h"
 #include <sstream>
 #include <string>
+#include <stdio.h>
 #include <ft2build.h>
+#include <freetype/ftoutln.h>
 #include FT_FREETYPE_H
 
+int moveto(const FT_Vector* to, void* user) {
+    printf("M %d %d\n", to->x, to->y);
+    return 0;
+}
+
+int lineto(const FT_Vector* to, void* user) {
+    printf("L %d %d\n", to->x, to->y);
+    return 0;
+}
+
+int  conicto(const FT_Vector* control, const FT_Vector* to, void* user) {
+    printf("Q %d %d %d %d\n", control->x,control->y, to->x, to->y);
+    return 0;
+}
+
+int  cubicto(const FT_Vector*  control1, const FT_Vector*  control2,const FT_Vector* to, void* user) {
+    printf("C %d %d %d %d %d %d\n",control1->x, control1->y,control2->x, control2->y,to->x, to->y);
+    return 0;
+}
 /* --- Helper functions --- */
 
 JNIEXPORT jobject JNICALL Java_com_mlomb_freetypejni_Utils_newBuffer(JNIEnv *env, jclass obj, jint size) {
@@ -214,6 +235,11 @@ JNIEXPORT jint JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1GlyphSlot_1Get_1b
 JNIEXPORT jint JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1GlyphSlot_1Get_1bitmap_1top(JNIEnv *env, jclass obj, jlong glyph) {
 	return ((FT_GlyphSlot)glyph)->bitmap_top;
 }
+
+JNIEXPORT jlong JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1GlyphSlot_1Get_1outline(JNIEnv *env, jclass obj, jlong glyph) {
+    return (jlong)(&((FT_GlyphSlot)glyph)->outline);
+}
+
 JNIEXPORT jboolean JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Render_1Glyph(JNIEnv *env, jclass obj, jlong glyph, jint renderMode) {
 	return FT_Render_Glyph((FT_GlyphSlot)glyph, (FT_Render_Mode)renderMode);
 }
@@ -242,6 +268,28 @@ JNIEXPORT jobject JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Bitmap_1Get_1b
 	FT_Bitmap* bmp = (FT_Bitmap*)bitmap;
 	return env->NewDirectByteBuffer((void*)bmp->buffer, bmp->rows * bmp->width * abs(bmp->pitch));
 }
+
+JNIEXPORT jint JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Outline_1Get_1points(JNIEnv *env, jclass obj, jlong outline) {
+
+    FT_Outline* ftOutline = (FT_Outline*)outline;
+
+    FT_Outline_Funcs callbacks;
+    callbacks.move_to = moveto;
+    callbacks.line_to = lineto;
+    callbacks.conic_to = conicto;
+    callbacks.cubic_to = cubicto;
+    callbacks.shift = 0;
+    callbacks.delta = 180;
+    FT_Error error = FT_Outline_Decompose(ftOutline, &callbacks, NULL);
+    if (error)
+        printf("Couldn't extract the outline");
+
+
+    return ((FT_Outline*)outline)->n_points;
+}
+
+
+
 JNIEXPORT jint JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Glyph_1Metrics_1Get_1width(JNIEnv *env, jclass obj, jlong glyphMetrics) {
 	return ((FT_Glyph_Metrics*)glyphMetrics)->width;
 }
@@ -348,7 +396,7 @@ JNIEXPORT jobject JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Face_1Get_1Ker
 		x = vector.x;
 		y = vector.y;
 	}
-	
+
 	jclass cls = env->FindClass("com/mlomb/freetypejni/Kerning");
 	jmethodID methodID = env->GetMethodID(cls, "<init>", "(II)V");
 	jobject a = env->NewObject(cls, methodID, x, y);
