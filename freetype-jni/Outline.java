@@ -10,7 +10,7 @@ public class Outline extends Pointer {
 		super(pointer);
 	}
 
-	public int getNumPoints() {
+	public byte[] getNumPoints() {
     	return FreeType.FT_Outline_Get_points(pointer);
     }
 }

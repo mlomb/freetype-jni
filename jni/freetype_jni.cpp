@@ -6,24 +6,48 @@
 #include <ft2build.h>
 #include <freetype/ftoutln.h>
 #include FT_FREETYPE_H
+std::string path = "";
+
+inline std::string format(const char* fmt, ...){
+    int size = 512;
+    char* buffer = 0;
+    buffer = new char[size];
+    va_list vl;
+    va_start(vl, fmt);
+    int nsize = vsnprintf(buffer, size, fmt, vl);
+    if(size<=nsize){ //fail delete buffer and try again
+        delete[] buffer;
+        buffer = 0;
+        buffer = new char[nsize+1]; //+1 for /0
+        nsize = vsnprintf(buffer, size, fmt, vl);
+    }
+    std::string ret(buffer);
+    va_end(vl);
+    delete[] buffer;
+    return ret;
+}
 
 int moveto(const FT_Vector* to, void* user) {
-    printf("M %d %d\n", to->x, to->y);
+    std::string ret = format("M %d %d ", to->x, to->y);
+    path += ret;
     return 0;
 }
 
 int lineto(const FT_Vector* to, void* user) {
-    printf("L %d %d\n", to->x, to->y);
+    std::string ret = format("L %d %d ", to->x, to->y);
+    path += ret;
     return 0;
 }
 
 int  conicto(const FT_Vector* control, const FT_Vector* to, void* user) {
-    printf("Q %d %d %d %d\n", control->x,control->y, to->x, to->y);
+    std::string ret = format("Q %d %d %d %d ", control->x,control->y, to->x, to->y);
+    path += ret;
     return 0;
 }
 
 int  cubicto(const FT_Vector*  control1, const FT_Vector*  control2,const FT_Vector* to, void* user) {
-    printf("C %d %d %d %d %d %d\n",control1->x, control1->y,control2->x, control2->y,to->x, to->y);
+    std::string ret = format("C %d %d %d %d %d %d ",control1->x, control1->y,control2->x, control2->y,to->x, to->y);
+    path += ret;
     return 0;
 }
 /* --- Helper functions --- */
@@ -269,26 +293,24 @@ JNIEXPORT jobject JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Bitmap_1Get_1b
 	return env->NewDirectByteBuffer((void*)bmp->buffer, bmp->rows * bmp->width * abs(bmp->pitch));
 }
 
-JNIEXPORT jint JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Outline_1Get_1points(JNIEnv *env, jclass obj, jlong outline) {
-
+JNIEXPORT jbyteArray JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Outline_1Get_1points(JNIEnv *env, jclass obj, jlong outline) {
+    path = "";
     FT_Outline* ftOutline = (FT_Outline*)outline;
-
     FT_Outline_Funcs callbacks;
     callbacks.move_to = moveto;
     callbacks.line_to = lineto;
     callbacks.conic_to = conicto;
     callbacks.cubic_to = cubicto;
     callbacks.shift = 0;
-    callbacks.delta = 180;
+    callbacks.delta = 0;
     FT_Error error = FT_Outline_Decompose(ftOutline, &callbacks, NULL);
-    if (error)
-        printf("Couldn't extract the outline");
-
-
-    return ((FT_Outline*)outline)->n_points;
+//    if (error)
+//        printf("Couldn't extract the outline");
+//    printf("%s\n", path.c_str());
+    jbyteArray array = env->NewByteArray(path.length());
+    env->SetByteArrayRegion(array,0,path.length(),(jbyte*)path.c_str());
+    return array;
 }
-
-
 
 JNIEXPORT jint JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Glyph_1Metrics_1Get_1width(JNIEnv *env, jclass obj, jlong glyphMetrics) {
 	return ((FT_Glyph_Metrics*)glyphMetrics)->width;
