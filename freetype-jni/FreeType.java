@@ -110,7 +110,7 @@ public class FreeType {
 	public static native ByteBuffer FT_Bitmap_Get_buffer	  (long bitmap);
 
 	// --- Outline
-	public static native byte[]        FT_Outline_Get_points       (long outline);
+	public static native byte[]        FT_Outline_Get_points(long outline, int yReversal);
 
 	// ---- Charmap
 	public static native int FT_Get_Charmap_Index(long charmap);

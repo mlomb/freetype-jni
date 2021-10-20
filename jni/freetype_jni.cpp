@@ -293,9 +293,23 @@ JNIEXPORT jobject JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Bitmap_1Get_1b
 	return env->NewDirectByteBuffer((void*)bmp->buffer, bmp->rows * bmp->width * abs(bmp->pitch));
 }
 
-JNIEXPORT jbyteArray JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Outline_1Get_1points(JNIEnv *env, jclass obj, jlong outline) {
+JNIEXPORT jbyteArray JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Outline_1Get_1points(JNIEnv *env, jclass obj, jlong outline, jint yReversal) {
     path = "";
     FT_Outline* ftOutline = (FT_Outline*)outline;
+
+    if (yReversal == 1) {
+        const FT_Fixed multiplier = 65536L;
+
+        FT_Matrix matrix;
+
+        matrix.xx = 1L * multiplier;
+        matrix.xy = 0L * multiplier;
+        matrix.yx = 0L * multiplier;
+        matrix.yy = -1L * multiplier;
+
+        FT_Outline_Transform(ftOutline, &matrix);
+    }
+
     FT_Outline_Funcs callbacks;
     callbacks.move_to = moveto;
     callbacks.line_to = lineto;
