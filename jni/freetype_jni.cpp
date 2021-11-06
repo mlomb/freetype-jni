@@ -52,7 +52,7 @@ int  conicto(const FT_Vector* control, const FT_Vector* to, void* user) {
 }
 
 int  cubicto(const FT_Vector*  control1, const FT_Vector*  control2,const FT_Vector* to, void* user) {
-    std::string ret = format("C %d %d %d %d %d %d ",control1->x, control1->y,control2->x, control2->y,to->x, to->y);
+    std::string ret = format("B %d %d %d %d %d %d ",control1->x, control1->y,control2->x, control2->y,to->x, to->y);
     minY = M_MIN( minY, control1->y );
     minY = M_MIN( minY, control2->y );
     minY = M_MIN( minY, to->y );
@@ -329,7 +329,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Outline_1Ge
     FT_Error error = FT_Outline_Decompose(ftOutline, &callbacks, NULL);
 //    if (error)
 //        printf("Couldn't extract the outline");
-    printf("%d\n", minY);
+//    printf("%d\n", minY);
     *arr = minY;
     jbyteArray array = env->NewByteArray(path.length());
     env->SetByteArrayRegion(array,0,path.length(),(jbyte*)path.c_str());
