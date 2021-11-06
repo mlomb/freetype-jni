@@ -6,9 +6,7 @@
 #include <ft2build.h>
 #include <freetype/ftoutln.h>
 #include FT_FREETYPE_H
-#define M_MIN( a, b )  ( (a) < (b) ? (a) : (b) )
 std::string path = "";
-int minY = 0;
 
 inline std::string format(const char* fmt, ...){
     int size = 512;
@@ -31,34 +29,28 @@ inline std::string format(const char* fmt, ...){
 
 int moveto(const FT_Vector* to, void* user) {
     std::string ret = format("M %d %d ", to->x, to->y);
-    minY = M_MIN( minY, to->y );
     path += ret;
     return 0;
 }
 
 int lineto(const FT_Vector* to, void* user) {
     std::string ret = format("L %d %d ", to->x, to->y);
-    minY = M_MIN( minY, to->y );
     path += ret;
     return 0;
 }
 
 int  conicto(const FT_Vector* control, const FT_Vector* to, void* user) {
     std::string ret = format("Q %d %d %d %d ", control->x,control->y, to->x, to->y);
-    minY = M_MIN( minY, control->y );
-    minY = M_MIN( minY, to->y );
     path += ret;
     return 0;
 }
 
 int  cubicto(const FT_Vector*  control1, const FT_Vector*  control2,const FT_Vector* to, void* user) {
     std::string ret = format("B %d %d %d %d %d %d ",control1->x, control1->y,control2->x, control2->y,to->x, to->y);
-    minY = M_MIN( minY, control1->y );
-    minY = M_MIN( minY, control2->y );
-    minY = M_MIN( minY, to->y );
     path += ret;
     return 0;
 }
+
 /* --- Helper functions --- */
 
 JNIEXPORT jobject JNICALL Java_com_mlomb_freetypejni_Utils_newBuffer(JNIEnv *env, jclass obj, jint size) {
@@ -302,10 +294,9 @@ JNIEXPORT jobject JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Bitmap_1Get_1b
 	return env->NewDirectByteBuffer((void*)bmp->buffer, bmp->rows * bmp->width * abs(bmp->pitch));
 }
 
-JNIEXPORT jbyteArray JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Outline_1Get_1points(JNIEnv *env, jclass obj, jlong outline, jint yReversal, jintArray jarr) {
+JNIEXPORT jbyteArray JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Outline_1Get_1points(JNIEnv *env, jclass obj, jlong outline, jint yReversal) {
     path = "";
     FT_Outline* ftOutline = (FT_Outline*)outline;
-    jint *arr = env->GetIntArrayElements(jarr, NULL);
     if (yReversal == 1) {
         const FT_Fixed multiplier = 65536L;
 
@@ -327,13 +318,8 @@ JNIEXPORT jbyteArray JNICALL Java_com_mlomb_freetypejni_FreeType_FT_1Outline_1Ge
     callbacks.shift = 0;
     callbacks.delta = 0;
     FT_Error error = FT_Outline_Decompose(ftOutline, &callbacks, NULL);
-//    if (error)
-//        printf("Couldn't extract the outline");
-//    printf("%d\n", minY);
-    *arr = minY;
     jbyteArray array = env->NewByteArray(path.length());
     env->SetByteArrayRegion(array,0,path.length(),(jbyte*)path.c_str());
-    env->ReleaseIntArrayElements(jarr, arr, JNI_COMMIT);
     return array;
 }
 
